@@ -46,6 +46,7 @@ export default {
     function select(val) {
       ctx.$store.state.iframeSrc = ref(val);
       console.log(ctx.$store.state.iframeSrc, "=", val);
+      console.log("ctx.$ref",ctx.$ref);
     }
 
     return {

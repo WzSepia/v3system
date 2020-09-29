@@ -107,28 +107,31 @@ export default {
     ...mapState(["headerList"]),
   },
   setup() {
+    //时间
     const date = reactive({
       hhmmss: "00:00:00",
       yymmdd: "0000年00月00日",
     });
-
+    //用户密码修改
     const userInfo = reactive({
-      oldPass: "",
-      newPass: "",
-      surePass: "",
+      oldPass: "", //旧密码
+      newPass: "", //新密码
+      surePass: "", //确认新密码
     });
-
+    //tab显示的索引
     const isShow = ref(0);
+    //上下文（当前路径）
     const { ctx } = getCurrentInstance();
-
+    //tab选择
     function select(val) {
+      console.log("val=", val);
       isShow.value = val;
     }
-
+    //logo处的点击按钮（控制nav菜单显示隐藏）
     function navIsHide() {
       ctx.$store.state.navIsHide = !ctx.$store.state.navIsHide;
     }
-
+    //时间方法
     function hoursMinutesSeconds() {
       const time = reactive({
         h: new Date().getHours() + ":",
@@ -139,38 +142,37 @@ export default {
       time.s = time.s.length === 1 ? ":0" + time.s : ":" + time.s;
       return time.h + time.m + time.s;
     }
-
+    //日期方法
     function yearMonthDay() {
       const y = new Date().getFullYear() + "年";
       const m = new Date().getMonth() + 1 + "月";
       const d = new Date().getDate() + "日";
       return y + m + d;
     }
-
+    //即时计时（时间展示）
     setInterval(() => {
       date.hhmmss = ref(hoursMinutesSeconds());
       date.yymmdd = ref(yearMonthDay());
     }, 1000);
-
-    //
+    //设置密码方法
     function setPassword() {
       userInfo.oldPass = "";
       userInfo.newPass = "";
       userInfo.surePass = "";
       /* eslint-disable */
-      //示范一个公告层
+      //打开面板（配置）
       layer.open({
         type: 1,
-        title: "修改登陆密码", //不显示标题栏
-        closeBtn: false,
-        area: "",
-        shade: 0.8,
+        title: "修改登陆密码", //标题栏（false：不展示，value：任何值）
+        closeBtn: false,//关闭按钮的显示隐藏（false：隐藏，true：展示）
+        area: "",//弹窗（界面）大小（[100px ,100px]）|| (100px)
+        shade: 0.8,//蒙版（mask遮罩 0:不展示）
         id: "LAY_layuipro", //设定一个id，防止重复弹出
-        btn: ["确定", "取消"],
-        btnAlign: "c",
+        btn: ["确定", "取消"],//按钮设定
+        btnAlign: "c",//按钮位置
         moveType: 1, //拖拽模式，0或者1
-        content: $(".setPass"), //document.querySelector
-        yes: function () {
+        content: $(".setPass"),//内容dom
+        yes: function () { //点击确认
           if (!userInfo.oldPass) {
             alert("旧密码不能为空！");
             return;
@@ -192,14 +194,14 @@ export default {
           layer.closeAll();
           document.querySelector(".setPass").style.display = "none";
         },
-        btn2: function () {
+        btn2: function () { // 点击取消
           layer.closeAll();
           document.querySelector(".setPass").style.display = "none";
         },
       });
       /* eslint-enable */
     }
-    //
+    //退出系统
     function quitSystem() {
       if (confirm("确定退出系统吗？")) {
         sessionStorage.eleToken = "";
@@ -209,7 +211,7 @@ export default {
         }, 1000);
       }
     }
-
+    //提供（外面访问）
     return {
       date,
       userInfo,
@@ -224,12 +226,13 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+//头部样式
 .header
   width: 100%
   height: 100%
   display: flex
   user-select: none
-
+//logo样式
 .logo
   height: 100%
   line-height: 60px
@@ -244,6 +247,7 @@ ul.layui-nav
   height: 100%
   padding: 0
 
+//蓝色背景
 .layui-bg-blue
   background-color: #1E9FFF!important
 
@@ -271,6 +275,7 @@ ul.layui-nav
   width: 100%
   background-color: #93D1FF!important
 
+//用户信息处样式
 .userInfo
   display: flex
   width: 280px
@@ -279,6 +284,7 @@ ul.layui-nav
   div
     padding: 0 4px
 .time
+  width: 105px
   color: #ffffff
   text-align: center
 .user
