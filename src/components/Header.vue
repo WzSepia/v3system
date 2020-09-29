@@ -51,7 +51,7 @@
           <label class="layui-form-label">旧密码：</label>
           <div class="layui-input-inline">
             <input
-              type="text"
+              type="password"
               required
               lay-verify="required"
               placeholder="请输入旧密码"
@@ -142,8 +142,8 @@ export default {
 
     function yearMonthDay() {
       const y = new Date().getFullYear() + "年";
-      const m = new Date().getMonth() + "月";
-      const d = new Date().getDay() + "日";
+      const m = new Date().getMonth() + 1 + "月";
+      const d = new Date().getDate() + "日";
       return y + m + d;
     }
 
@@ -154,6 +154,9 @@ export default {
 
     //
     function setPassword() {
+      userInfo.oldPass = "";
+      userInfo.newPass = "";
+      userInfo.surePass = "";
       /* eslint-disable */
       //示范一个公告层
       layer.open({
@@ -184,13 +187,14 @@ export default {
           //请求后台看看旧密码输入的对不对
           /*
             callname
-          */ 
-          document.querySelector(".setPass").style.display = "none";
+          */
+          alert("修改成功！");
           layer.closeAll();
+          document.querySelector(".setPass").style.display = "none";
         },
         btn2: function () {
-          document.querySelector(".setPass").style.display = "none";
           layer.closeAll();
+          document.querySelector(".setPass").style.display = "none";
         },
       });
       /* eslint-enable */
@@ -306,4 +310,5 @@ ul.layui-nav
 .setPass
   width: auto
   height: auto
+  padding: 10px 0 0 0
 </style>

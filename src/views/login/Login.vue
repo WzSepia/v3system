@@ -49,7 +49,7 @@ export default {
     //console.log(ctx.$router);
     const userInfo = reactive({
       name: "super",
-      password: "123",
+      password: "Aa_123456",
     });
     function login() {
       sessionStorage.eleToken = userInfo.name;
